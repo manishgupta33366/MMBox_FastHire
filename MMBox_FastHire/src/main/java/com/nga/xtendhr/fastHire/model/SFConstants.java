@@ -8,7 +8,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_SF_CONSTANTS\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_SF_CONSTANTS\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({ @NamedQuery(name = "SFConstants.findAll", query = "SELECT bu FROM BusinessUnit bu") })
 
 public class SFConstants {

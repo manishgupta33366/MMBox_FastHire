@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_FIELD_GROUPS\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_FIELD_GROUPS\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({ @NamedQuery(name = "FieldGroup.findAll", query = "SELECT f FROM FieldGroup f")
 
 })

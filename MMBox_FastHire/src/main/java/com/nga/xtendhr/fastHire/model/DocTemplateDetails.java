@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * @version	:	0.0.1
  */
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHR_DOC_TEMPLATE_DETAILS\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHR_DOC_TEMPLATE_DETAILS\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({
 		@NamedQuery(name = "DocTemplateDetails.findById", query = "SELECT DTD FROM DocTemplateDetails DTD WHERE DTD.docTemplateId = :docTemplateId"),
 		@NamedQuery(name = "DocTemplateDetails.findByName", query = "SELECT DTD FROM DocTemplateDetails DTD WHERE DTD.name = :name"),

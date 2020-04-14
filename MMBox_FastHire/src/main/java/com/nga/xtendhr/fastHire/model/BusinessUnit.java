@@ -10,7 +10,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_BUSINESS_UNITS\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_BUSINESS_UNITS\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({ @NamedQuery(name = "BusinessUnit.findAll", query = "SELECT bu FROM BusinessUnit bu"),
 		@NamedQuery(name = "BusinessUnit.findDefaultBusinessUnit", query = "SELECT bu FROM BusinessUnit bu WHERE bu.isDefault = :isDefault")
 

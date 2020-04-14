@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 import com.nga.xtendhr.fastHire.utilities.DropDownKeyValue;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_MAP_TEMPLATE_FIELD_PROPERTIES\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_MAP_TEMPLATE_FIELD_PROPERTIES\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({
 		@NamedQuery(name = "MapTemplateFieldProperties.findAll", query = "SELECT map FROM MapTemplateFieldProperties map"),
 		@NamedQuery(name = "MapTemplateFieldProperties.findByTemplateFieldGroup", query = "SELECT map FROM MapTemplateFieldProperties map WHERE map.templateFieldGroupId = :templateFieldGroupId"),

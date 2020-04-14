@@ -8,7 +8,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_DROPDOWN_VALUES_FROM_SF\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_DROPDOWN_VALUES_FROM_SF\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({ @NamedQuery(name = "FieldDataFromSystem.findAll", query = "SELECT f FROM FieldDataFromSystem f"),
 		@NamedQuery(name = "FieldDataFromSystem.findByField", query = "SELECT f FROM FieldDataFromSystem f WHERE f.fieldId = :fieldId"),
 		@NamedQuery(name = "FieldDataFromSystem.findByFieldCountry", query = "SELECT f FROM FieldDataFromSystem f WHERE f.fieldId = :fieldId AND f.countryId = :countryId")

@@ -10,7 +10,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_HIRING_TEMPLATES\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_HIRING_TEMPLATES\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({ @NamedQuery(name = "Template.findAll", query = "SELECT t FROM Template t"),
 		@NamedQuery(name = "Template.findDefaultTemplate", query = "SELECT t FROM Template t WHERE t.isDefault = :isDefault")
 

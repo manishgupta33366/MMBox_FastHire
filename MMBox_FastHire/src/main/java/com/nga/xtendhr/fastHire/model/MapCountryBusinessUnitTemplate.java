@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_MAP_COUNTRY_UNIT_TEMPLATES\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_MAP_COUNTRY_UNIT_TEMPLATES\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({
 		@NamedQuery(name = "MapCountryBusinessUnitTemplate.findAll", query = "SELECT t FROM MapCountryBusinessUnitTemplate t"),
 		@NamedQuery(name = "MapCountryBusinessUnitTemplate.findByCountryBusinessUnitId", query = "SELECT t FROM MapCountryBusinessUnitTemplate t WHERE t.countryBusinessUnitId = :countryBusinessUnitId"),

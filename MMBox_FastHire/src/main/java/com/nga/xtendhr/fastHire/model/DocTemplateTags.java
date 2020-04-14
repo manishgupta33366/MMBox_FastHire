@@ -8,7 +8,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHR_DOC_TEMPLATE_TAGS\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHR_DOC_TEMPLATE_TAGS\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({
 		@NamedQuery(name = "DocTemplateTags.findByTemplateId", query = "SELECT DTT FROM DocTemplateTags DTT WHERE DTT.templateId = :templateId") })
 public class DocTemplateTags {

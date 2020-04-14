@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_MAP_FIELD_GROUP_FIELDS\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_MAP_FIELD_GROUP_FIELDS\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({
 		@NamedQuery(name = "MapFieldFieldGroup.findAll", query = "SELECT map FROM MapFieldFieldGroup map WHERE :todayDate BETWEEN map.startDate AND map.endDate"),
 		@NamedQuery(name = "MapFieldFieldGroup.findByFieldGroupId", query = "SELECT map FROM MapFieldFieldGroup map WHERE map.fieldGroupId = :fieldGroupId"),

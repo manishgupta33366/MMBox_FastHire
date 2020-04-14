@@ -10,7 +10,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_CONFIRM_STATUS\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_CONFIRM_STATUS\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({ @NamedQuery(name = "ConfirmStatus.findAll", query = "SELECT cs FROM ConfirmStatus cs"),
 		@NamedQuery(name = "ConfirmStatus.findByCountryDepartment", query = "SELECT cs FROM ConfirmStatus cs where cs.company = :company AND cs.department= :department")
 

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "\"com.nga.poc.fasthire.db::Table.FHD_FIELDS\"", schema = "POC_FAST_HIRE")
+@Table(name = "\"com.nga.mmbox.fasthire.db::Table.FHD_FIELDS\"", schema = "MMBOX_FAST_HIRE")
 @NamedQueries({ @NamedQuery(name = "Field.findAll", query = "SELECT f FROM Field f") })
 public class Field {
 	@Id
