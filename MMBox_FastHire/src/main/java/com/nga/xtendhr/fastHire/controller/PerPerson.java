@@ -37,6 +37,7 @@ public class PerPerson {
 	private String paramName = null;
 	private String paramValue = null;
 	private String countryOfBirth = null;
+	private String placeOfBirth = null;
 	private final String dob = "dateofbirth";
 
 	private static String datePattern = "dd/MM/yyyy";
@@ -89,6 +90,10 @@ public class PerPerson {
 					} else if (techName.toLowerCase().equals("countryofbirth")) {
 						countryOfBirth = field.getValue().toString();
 					}
+					/* Adding the Place of Birth Field */
+					else if (techName.toLowerCase().equals("placeOfBirth")) {
+						placeOfBirth = field.getValue().toString();
+					}
 				}
 				if (paramName != null && paramName.length() > 0) {
 					break;
@@ -112,6 +117,7 @@ public class PerPerson {
 		obj.put("userId", userID);
 		obj.put(paramName, paramValue);
 		obj.put("countryOfBirth", countryOfBirth);
+		obj.put("placeOfBirth", placeOfBirth);
 //		logger.error(obj.toJSONString());
 		return obj.toJSONString();
 	}

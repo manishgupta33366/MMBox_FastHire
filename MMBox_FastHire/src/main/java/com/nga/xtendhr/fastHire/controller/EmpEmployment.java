@@ -130,7 +130,7 @@ public class EmpEmployment {
 		obj.put("personIdExternal", userID);
 		obj.put("userId", userID);
 		logger.debug("firstDateWorked2: " + firstDateWorked);
-		obj.put("firstDateWorked", dateFormatted(firstDateWorked));
+//		obj.put("firstDateWorked", dateFormatted(firstDateWorked));
 //		logger.error(obj.toJSONString());
 		return obj.toJSONString();
 	}

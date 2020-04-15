@@ -95,7 +95,9 @@ public class EmpJob {
 	private String deparment = null;
 	private String division = null;
 	private String standardHours = null;
-	private String parentCode = null;
+	private String parentCode = null;	
+	private String cust_PersonnelArea = null;
+	private String cust_PersonnelSubarea = null;	
 	private String managerId = null;
 	private String payScaleArea = null;
 	private String payScaleType = null;
@@ -182,7 +184,7 @@ public class EmpJob {
 			destClient.setDestConfiguration();
 			destClient.setHeaders(destClient.getDestProperty("Authentication"));
 			HttpResponse response = destClient.callDestinationGET("/Position?$filter=code eq '" + position
-					+ "'&$format=json&$expand=parentPosition&$select=code,location,payGrade,businessUnit,jobCode,department,division,company,costCenter,standardHours,parentPosition/code",
+					+ "'&$format=json&$expand=parentPosition&$select=code,location,payGrade,businessUnit,jobCode,department,division,company,costCenter,standardHours,parentPosition/code,cust_PersonnelArea,cust_PersonnelSubarea",
 					"");
 			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
 			JSONObject jsonObject = (JSONObject) JSONValue.parse(responseString);
@@ -274,6 +276,17 @@ public class EmpJob {
 					parentCode = parentPositionObject.get("code").toString();
 				} else {
 					parentCode = "";
+				}
+				
+				if (jsonObject.get("cust_PersonnelArea") != null) {
+				    cust_PersonnelArea = jsonObject.get("cust_PersonnelArea").toString();
+				} else {
+				    cust_PersonnelArea = "";
+				}
+				if (jsonObject.get("cust_PersonnelSubarea") != null) {
+					cust_PersonnelSubarea = jsonObject.get("cust_PersonnelSubarea").toString();
+				} else {
+					cust_PersonnelSubarea = "";
 				}
 			}
 		} catch (Exception e) {

@@ -302,17 +302,34 @@ public class PreHireManagerController {
 			for (int i = 0; i < vacantPosResultArray.length(); i++) {
 				JSONObject vacantPos = vacantPosResultArray.getJSONObject(i);
 				DashBoardPositionClass pos = new DashBoardPositionClass();
-				pos.setPayGrade(vacantPos.getString("payGrade"));
+				
+				//pos.setPayGrade(vacantPos.getString("payGrade"));
+				/* Vacant Position PayGrade is not Mandatory Field, it can have null value also*/
+				if (!(vacantPos.get("payGrade").toString().equalsIgnoreCase("null"))){
+				    pos.setPayGrade(vacantPos.getString("payGrade"));
+				}else{
+				    pos.setPayGrade(null);
+				}
+				
+				
 				pos.setPositionCode(vacantPos.getString("code"));
 				pos.setPositionTitle(vacantPos.getString("externalName_localized") != null
 						? vacantPos.getString("externalName_localized")
 						: vacantPos.getString("externalName_defaultValue"));// null
 																			// check
-				pos.setEmployeeClassName(
+				/*pos.setEmployeeClassName(
 						vacantPos.getJSONObject("employeeClassNav").getString("label_localized") != null
 								? vacantPos.getJSONObject("employeeClassNav").getString("label_localized")
-								: vacantPos.getJSONObject("employeeClassNav").getString("label_defaultValue"));// null
-																												// check
+								: vacantPos.getJSONObject("employeeClassNav").getString("label_defaultValue"));*/// null
+				/* Vacant Position EmployeeClassNav is not Mandatory Field, it can have null value also */																								// check
+				if (!(vacantPos.get("employeeClassNav").toString().equalsIgnoreCase("null"))){
+					    pos.setEmployeeClassName(
+					        vacantPos.getJSONObject("employeeClassNav").getString("label_localized") != null
+					        ? vacantPos.getJSONObject("employeeClassNav").getString("label_localized")
+					        : vacantPos.getJSONObject("employeeClassNav").getString("label_defaultValue"));// null	                                                                                                                // check   
+				}else{
+					 pos.setEmployeeClassName(null);
+				}
 				pos.setUserFirstName(null);
 				pos.setUserLastName(null);
 				pos.setUserId(null);
