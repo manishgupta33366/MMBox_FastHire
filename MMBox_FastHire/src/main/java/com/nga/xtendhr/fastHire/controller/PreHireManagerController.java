@@ -113,7 +113,9 @@ import com.nga.xtendhr.fastHire.service.MapTemplateFieldPropertiesService;
 import com.nga.xtendhr.fastHire.service.SFAPIService;
 import com.nga.xtendhr.fastHire.service.SFConstantsService;
 import com.nga.xtendhr.fastHire.utilities.DashBoardPositionClass;
+import com.nga.xtendhr.fastHire.utilities.DirectReport;
 import com.nga.xtendhr.fastHire.utilities.DropDownKeyValue;
+import com.nga.xtendhr.fastHire.utilities.EmpSubGroup;
 import com.sap.core.connectivity.api.configuration.ConnectivityConfiguration;
 import com.sap.core.connectivity.api.configuration.DestinationConfiguration;
 
@@ -437,12 +439,16 @@ public class PreHireManagerController {
 					+ paraMap.get("company") + "' and " + "department eq '" + paraMap.get("department") + "' and "
 					+ "emplStatusNav/id ne '" + empStatusConstant.getValue() + "' "
 					+ "and userNav/userId ne null &$expand=positionNav,userNav,"
-					+ "positionNav/employeeClassNav,userNav/personKeyNav"
+					
+//					+ "positionNav/employeeClassNav,userNav/personKeyNav" //Line commented
+					+ "userNav/personKeyNav,employeeClassNav/picklistLabels"
+					
 					+ "&$select=userId,startDate,customString11,position," + "positionNav/externalName_localized,"
 					+ "positionNav/externalName_defaultValue," + "positionNav/payGrade,positionNav/jobTitle,"
 					+ "userNav/userId,userNav/username,userNav/defaultFullName," + "userNav/firstName,userNav/lastName,"
 					+ "positionNav/employeeClassNav/label_localized,"
-					+ "positionNav/employeeClassNav/label_defaultValue," + "userNav/personKeyNav/perPersonUuid");
+					+ "positionNav/employeeClassNav/label_defaultValue," + "userNav/personKeyNav/perPersonUuid"
+					+ ",employeeClass,employeeClassNav/picklistLabels/label"); // New Line added
 
 			String ongoingPosResponseJsonString = EntityUtils.toString(ongoingPosResponse.getEntity(), "UTF-8");
 			JSONObject ongoingPosResponseObject = new JSONObject(ongoingPosResponseJsonString);
@@ -464,12 +470,13 @@ public class PreHireManagerController {
 							ongoingPos.getJSONObject("positionNav").getString("externalName_localized") != null
 									? ongoingPos.getJSONObject("positionNav").getString("externalName_localized")
 									: ongoingPos.getJSONObject("positionNav").getString("externalName_defaultValue"));
-					pos.setEmployeeClassName(ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
+					/* Line is commented out */
+					/*pos.setEmployeeClassName(ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
 							.getString("label_localized") != null
 									? ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
 											.getString("label_localized")
 									: ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
-											.getString("label_defaultValue"));
+											.getString("label_defaultValue"));*/
 					pos.setUserFirstName(ongoingPos.getJSONObject("userNav").getString("firstName"));
 					pos.setUserLastName(ongoingPos.getJSONObject("userNav").getString("lastName"));
 					pos.setUserId(ongoingPos.getJSONObject("userNav").getString("userId"));
@@ -562,7 +569,7 @@ public class PreHireManagerController {
 			SFConstants empStatusConstant = sfConstantsService.findById("emplStatusId");
 
 			HttpResponse positionResponse = destClient.callDestinationGET("/Position", "?$filter=code eq '" + position
-					+ "'&$format=json&$select=code,vacant,location,payGrade,jobCode,standardHours,externalName_localized");
+					+ "'&$format=json&$select=code,vacant,location,payGrade,jobCode,standardHours,externalName_localized,company");
 			String positionResponseJsonString = EntityUtils.toString(positionResponse.getEntity(), "UTF-8");
 			JSONObject positionResponseObject = new JSONObject(positionResponseJsonString);
 			positionResponseObject = positionResponseObject.getJSONObject("d").getJSONArray("results").getJSONObject(0);
@@ -2153,6 +2160,102 @@ public class PreHireManagerController {
 			return new ResponseEntity<>("Error: " + e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	
+	@GetMapping(value = "/DirectReports")
+	public ResponseEntity<List<DirectReport>> getDirectReports(HttpServletRequest request)
+			throws NamingException, ClientProtocolException, IOException, URISyntaxException, java.text.ParseException {
+		try {
+			HttpSession session = request.getSession(false);
+			String loggedInUser = request.getUserPrincipal().getName();
+			// need to remove this code
+			if (loggedInUser.equalsIgnoreCase("S0018810731") || loggedInUser.equalsIgnoreCase("S0018269301")
+					|| loggedInUser.equalsIgnoreCase("S0018810731") || loggedInUser.equalsIgnoreCase("S0019013022")) {
+				loggedInUser = "sfadmin";
+			}
+
+			List<DirectReport> directReports = new ArrayList<DirectReport>();
+
+			DestinationClient destClient = new DestinationClient();
+			destClient.setDestName(destinationName);
+			destClient.setHeaderProvider();
+			destClient.setConfiguration();
+			destClient.setDestConfiguration();
+			destClient.setHeaders(destClient.getDestProperty("Authentication"));
+
+			// get the Emjob Details of the logged In user
+
+			HttpResponse empJobResponse = destClient.callDestinationGET("/User", "?$filter=userId eq '" + loggedInUser
+					+ "' &$format=json&$expand=directReports&$select=directReports/userId,directReports/defaultFullName,directReports/title");
+			String empJobResponseJsonString = EntityUtils.toString(empJobResponse.getEntity(), "UTF-8");
+			JSONObject empJobResponseObject = new JSONObject(empJobResponseJsonString);
+			logger.debug("empJobResponseObject in Direct Report:  " + empJobResponseObject.toString());			
+			empJobResponseObject = empJobResponseObject.getJSONObject("d").getJSONArray("results").getJSONObject(0);
+			JSONArray empJobResponseObjectArray = empJobResponseObject.getJSONObject("directReports").getJSONArray("results");
+			logger.debug("empJobResponseObjectArray in Direct Report:  " + empJobResponseObjectArray);	
+			
+			for (int i = 0; i < empJobResponseObjectArray.length(); i++) {
+				JSONObject empResultObject = empJobResponseObjectArray.getJSONObject(i);
+				DirectReport directReport = new DirectReport();
+				directReport.setUserId(empResultObject.getString("userId"));
+				directReport.setDefaultFullName(empResultObject.getString("defaultFullName"));
+				directReport.setTitle(empResultObject.getString("title"));
+				directReports.add(directReport);
+			}			
+			// return the JSON Object
+			return ResponseEntity.ok().body(directReports);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GetMapping(value = "/CustomerEmpSubgroup")
+	public ResponseEntity<List<EmpSubGroup>> getCustomerSubGroup(HttpServletRequest request, @RequestParam(value = "legalEntity", required = false) String legalEntity,
+			@RequestParam(value = "employeeGroup", required = true) String employeeGroup) {
+		try {
+			HttpSession session = request.getSession(false);
+			String loggedInUser = request.getUserPrincipal().getName();
+			// need to remove this code
+			if (loggedInUser.equalsIgnoreCase("S0018810731") || loggedInUser.equalsIgnoreCase("S0018269301")
+					|| loggedInUser.equalsIgnoreCase("S0018810731") || loggedInUser.equalsIgnoreCase("S0019013022")) {
+				loggedInUser = "sfadmin";
+			}
+			List<EmpSubGroup> empSubGroupArray = new ArrayList<EmpSubGroup>();
+			DestinationClient destClient = new DestinationClient();
+			destClient.setDestName(destinationName);
+			destClient.setHeaderProvider();
+			destClient.setConfiguration();
+			destClient.setDestConfiguration();
+			destClient.setHeaders(destClient.getDestProperty("Authentication"));
+			
+			// get the Employee Subgroup Details of the logged In user
+			HttpResponse empSubGroupResponse = destClient.callDestinationGET("/cust_EmployeeSubgroup", "?$format=json&$expand=cust_toLegalEntity,cust_toEmployeeGroup&$filter=cust_toLegalEntity/externalCode eq '" + legalEntity
+							+ "' and cust_toEmployeeGroup/externalCode eq '" + employeeGroup + "'&$select=externalCode,externalName_localized");		
+						
+			String empSubGroupResponseJsonString = EntityUtils.toString(empSubGroupResponse.getEntity(), "UTF-8");
+			JSONObject empSubGroupResponseObject = new JSONObject(empSubGroupResponseJsonString);
+			logger.debug("empSubGroupResponseObject in CustomerEmpSubgroup:  " + empSubGroupResponseObject.toString());			
+			JSONArray empJobResponseObjectArray = empSubGroupResponseObject.getJSONObject("d").getJSONArray("results");
+			logger.debug("empSubGroupResponseObjectArray in CustomerEmpSubgroup:  " + empJobResponseObjectArray);	
+						
+			for (int i = 0; i < empJobResponseObjectArray.length(); i++) {
+				JSONObject empSubGroupObject = empJobResponseObjectArray.getJSONObject(i);
+				EmpSubGroup empSubGroup = new EmpSubGroup();				
+				empSubGroup.setKey(empSubGroupObject.getString("externalCode"));
+				empSubGroup.setValue(empSubGroupObject.getString("externalName_localized"));				
+				empSubGroupArray.add(empSubGroup);
+			}
+			logger.debug("empSubGroupArray in CustomerEmpSubgroup:  " + empSubGroupArray);
+			// return the JSON Array
+			
+			return ResponseEntity.ok().body(empSubGroupArray);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 
 	public JSONObject readJSONFile(String FilePath) throws IOException {
 		JSONObject jsonObject = null;

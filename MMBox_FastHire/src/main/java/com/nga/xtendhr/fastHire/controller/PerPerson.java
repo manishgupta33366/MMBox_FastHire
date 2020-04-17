@@ -91,7 +91,7 @@ public class PerPerson {
 						countryOfBirth = field.getValue().toString();
 					}
 					/* Adding the Place of Birth Field */
-					else if (techName.toLowerCase().equals("placeOfBirth")) {
+					else if (techName.toLowerCase().equals("placeofbirth")) {
 						placeOfBirth = field.getValue().toString();
 					}
 				}

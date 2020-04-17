@@ -21,6 +21,7 @@ com\nga\xtendhr\fastHire\connections\HttpConnectionPUT.class
 com\nga\xtendhr\fastHire\service\MapCountryBusinessUnitServiceImp.class
 com\nga\xtendhr\fastHire\POJO\Field.class
 com\nga\xtendhr\fastHire\service\MapTemplateFieldPropertiesServiceImp.class
+com\nga\xtendhr\fastHire\utilities\DirectReportClass.class
 com\nga\xtendhr\fastHire\controller\BankController.class
 com\nga\xtendhr\fastHire\utilities\URLManager.class
 com\nga\xtendhr\fastHire\controller\EmpCompensation.class
@@ -136,6 +137,7 @@ com\nga\xtendhr\fastHire\controller\CustPersonIdGen.class
 com\nga\xtendhr\fastHire\controller\AppConfigurationController.class
 com\nga\xtendhr\fastHire\model\MapTemplateFieldProperties.class
 com\nga\xtendhr\fastHire\service\DocTemplateDetailsServiceImp.class
+com\nga\xtendhr\fastHire\utilities\EmpSubGroup.class
 com\nga\xtendhr\fastHire\authentication\BasicAuthenticationHeaderProvider.class
 com\nga\xtendhr\fastHire\controller\CountryController.class
 com\nga\xtendhr\fastHire\service\ContractCriteriaService.class

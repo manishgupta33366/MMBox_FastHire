@@ -75,6 +75,13 @@ public class EmpJob {
 
 	private String paramFirmSubCategoryName = null;
 	private String paramFirmSubCategoryValue = null;
+	
+	private String paramEmpSubGroupName = null;
+	private String paramEmpSubGroupValue = null;
+	
+	private String cust_PersonnelArea = null;
+	private String cust_PersonnelSubarea = null;	
+	
 
 	private final String sDate = "startdate";
 	private final String empType = "employmenttype";
@@ -85,7 +92,9 @@ public class EmpJob {
 	private String contractEndDate = "contractEndDate";
 	private String contractType = "contractType";
 	private String customString1 = "customString1";
-
+	private String customString2 = "customString2";
+	
+	
 	private String jobCode = null;
 	private String company = null;
 	private String businessUnit = null;
@@ -95,13 +104,14 @@ public class EmpJob {
 	private String deparment = null;
 	private String division = null;
 	private String standardHours = null;
-	private String parentCode = null;	
-	private String cust_PersonnelArea = null;
-	private String cust_PersonnelSubarea = null;	
+	private String parentCode = null;		
 	private String managerId = null;
 	private String payScaleArea = null;
 	private String payScaleType = null;
-	private String jobTitle = null;
+	private String jobTitle = null;	
+	private String payScaleGroup = null;
+	private String employeeType = null;
+	private String regularTemp = null;
 
 	private static String datePattern = "dd/MM/yyyy";
 
@@ -246,12 +256,12 @@ public class EmpJob {
 				} else {
 					payGrade = "";
 				}
-
-				if (jsonObject.get("location") != null) {
+				/* Commenting the Location field */
+				/*if (jsonObject.get("location") != null) {
 					location = jsonObject.get("location").toString();
 				} else {
 					location = "";
-				}
+				}*/
 
 				if (jsonObject.get("department") != null) {
 					deparment = jsonObject.get("department").toString();
@@ -378,12 +388,28 @@ public class EmpJob {
 //						logger.error(paramEmpName.toString());
 //						logger.error(paramEmpValue.toString());
 
-					} else if (name.toLowerCase().equals("payscalearea")) {
+					} 
+					/* Adding New customString2 */
+					else if (name.toLowerCase().equals(customString2.toLowerCase())) {
+						paramEmpSubGroupName = name;
+						paramEmpSubGroupValue = field.getValue().toString();
+					}					
+					else if (name.toLowerCase().equals("payscalearea")) {
 						payScaleArea = field.getValue().toString();
 					} else if (name.toLowerCase().equals("payscaletype")) {
 						payScaleType = field.getValue().toString();
 					} else if (name.toLowerCase().equals("jobtitle")) {
 						jobTitle = field.getValue().toString();
+					}
+					/* Adding these Fields location, payScaleGroup, employeeType,regularTemp */
+					else if (name.toLowerCase().equalsIgnoreCase("location")) {
+						location = field.getValue().toString();
+					} else if (name.toLowerCase().equalsIgnoreCase("payscalegroup")) {
+						payScaleGroup = field.getValue().toString();
+					}else if (name.toLowerCase().equalsIgnoreCase("employeetype")) {
+						employeeType = field.getValue().toString();
+					} else if (name.toLowerCase().equalsIgnoreCase("regulartemp")) {
+						regularTemp = field.getValue().toString();
 					}
 
 				}
@@ -417,7 +443,7 @@ public class EmpJob {
 		obj.put("payGrade", payGrade);
 		obj.put(paramPositionName, paramPositionValue);
 		obj.put("location", location);
-//		obj.put(paramEmpName, paramEmpValue);
+		obj.put(paramEmpName, paramEmpValue);
 		obj.put("department", deparment);
 		obj.put("division", division);
 //		obj.put(paramHolCodeName, paramHolNameValue);
@@ -426,13 +452,21 @@ public class EmpJob {
 		obj.put("standardHours", standardHours);
 		obj.put("managerId", managerId);
 //		obj.put(paramContractEDateName, paramContractEDateValue);
-//		obj.put(paramcontractTypeName, paramcontractTypeValue);
-//		obj.put(paramFirmSubCategoryName, paramFirmSubCategoryValue);
+		obj.put(paramcontractTypeName, paramcontractTypeValue);
+		obj.put(paramFirmSubCategoryName, paramFirmSubCategoryValue);
 		obj.put(ConstantManager.customDateName, customDateValue);
 
 		obj.put("payScaleArea", payScaleArea);
 		obj.put("payScaleType", payScaleType);
-		obj.put("jobTitle", jobTitle);
+//		obj.put("jobTitle", jobTitle);
+		
+		obj.put(paramEmpSubGroupName, paramEmpSubGroupValue);
+		obj.put("payScaleGroup", payScaleGroup);
+		obj.put("employeeType", employeeType);
+		obj.put("regularTemp", regularTemp);		
+		obj.put("customString3", cust_PersonnelArea);
+		obj.put("customString4", cust_PersonnelSubarea);
+		
 		logger.error("EmpbjobPost:" + obj.toJSONString());
 		return obj.toJSONString();
 	}
