@@ -46,6 +46,7 @@ public class ConstantManager {
 	public static final String emailType = "/SF/emailType";
 	public static final String phoneType = "/SF/phoneType";
 	public static final String employeeClass = "/SF/employeeClass";
+	public static final String employeeClassPickListOption = "/SF/PicklistOptionEmpType";
 	public static final String currency = "/SF/currency";
 	public static final String holidayCalendar = "/SF/holidayCalendar";
 	public static final String FOFrequency = "/SF/FOFrequency";
@@ -72,6 +73,8 @@ public class ConstantManager {
 	public static final String empCompensation = "/SF/Compensation";
 	public static final String empPayCompRecurring = "/SF/PayComp";
 	public static final String posVacancy = "/SF/Vacancy";
+	public static final String newPhoto = "/SF/Photo";
+	
 	// End SF api specific constants
 
 	// Redirect URL constants

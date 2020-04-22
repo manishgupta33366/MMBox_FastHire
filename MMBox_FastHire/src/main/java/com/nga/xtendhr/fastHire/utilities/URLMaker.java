@@ -231,6 +231,10 @@ public class URLMaker {
 		case "PositionVacancy":
 			urlToMake = urlToMake + "upsert?$format=json";
 			break;
+		
+		case "NewPhotoController":
+			urlToMake = urlToMake + "upsert?$format=json";
+			break;
 
 		default:
 			break;

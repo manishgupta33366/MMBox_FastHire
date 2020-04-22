@@ -60,6 +60,12 @@ public class URLManager {
 		this.controllerClass = className;
 		this.configName = config;
 	}
+	
+	/* Get the Destination URL */
+	public String getDestinationURL() {
+		String dUrl = destinationURL()+"/";
+		return dUrl;
+	}
 
 	/*
 	 * Form the url to be called in the servlet class.
@@ -231,7 +237,12 @@ public class URLManager {
 		case "PositionVacancy":
 			urlMaker = new URLMaker(controllerClass);
 			dUrl = dUrl + urlMaker.urlToMake;
-			break;			
+			break;	
+			
+		case "NewPhotoController":
+			urlMaker = new URLMaker(controllerClass);
+			dUrl = dUrl + urlMaker.urlToMake;
+			break;
 
 		default:
 			break;

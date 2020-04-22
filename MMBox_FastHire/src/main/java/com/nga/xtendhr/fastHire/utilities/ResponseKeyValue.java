@@ -1,6 +1,6 @@
 package com.nga.xtendhr.fastHire.utilities;
 
-public class EmpSubGroup {
+public class ResponseKeyValue {
 	String key;
 	String value;
 	
