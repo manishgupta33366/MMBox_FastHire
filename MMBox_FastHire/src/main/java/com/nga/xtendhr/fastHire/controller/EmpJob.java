@@ -104,7 +104,8 @@ public class EmpJob {
 	private String deparment = null;
 	private String division = null;
 	private String standardHours = null;
-	private String parentCode = null;		
+	private String parentCode = null;	
+	private String country = null;
 	private String managerId = null;
 	private String payScaleArea = null;
 	private String payScaleType = null;
@@ -194,8 +195,7 @@ public class EmpJob {
 			destClient.setDestConfiguration();
 			destClient.setHeaders(destClient.getDestProperty("Authentication"));
 			HttpResponse response = destClient.callDestinationGET("/Position?$filter=code eq '" + position
-					+ "'&$format=json&$expand=parentPosition&$select=code,location,payGrade,businessUnit,jobCode,department,division,company,costCenter,standardHours,parentPosition/code,cust_PersonnelArea,cust_PersonnelSubarea",
-					"");
+					+ "'&$format=json&$expand=parentPosition,companyNav&$select=code,location,payGrade,businessUnit,jobCode,department,division,company,costCenter,standardHours,parentPosition/code,companyNav/country,cust_PersonnelArea,cust_PersonnelSubarea", "");
 			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
 			JSONObject jsonObject = (JSONObject) JSONValue.parse(responseString);
 			jsonObject = (JSONObject) jsonObject.get("d");
@@ -225,7 +225,7 @@ public class EmpJob {
 				JSONObject metaData = (JSONObject) jsonObject.get("__metadata");
 				session.setAttribute("metaDataUpdatePosVac", metaData.get("uri").toString());
 				logger.error("metaDataUpdatePosVac Set at session:" + metaData.get("uri").toString());
-//			logger.error(jsonObject.toJSONString());
+				//	logger.error(jsonObject.toJSONString());
 
 				if (jsonObject.get("jobCode") != null) {
 					jobCode = jsonObject.get("jobCode").toString();
@@ -287,7 +287,14 @@ public class EmpJob {
 				} else {
 					parentCode = "";
 				}
-				
+				/* Change */
+				if(jsonObject.get("companyNav") != null){
+                    JSONObject countryObject = (JSONObject) JSONValue
+                            .parse(jsonObject.get("companyNav").toString());
+                    country = countryObject.get("country").toString();
+                }else{
+                	country = "";
+                }				
 				if (jsonObject.get("cust_PersonnelArea") != null) {
 				    cust_PersonnelArea = jsonObject.get("cust_PersonnelArea").toString();
 				} else {
@@ -437,9 +444,15 @@ public class EmpJob {
 		obj.put("businessUnit", businessUnit);
 		obj.put("managerId", "NO_MANAGER");
 		obj.put("costCenter", costCenter);
-		SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
-
-		obj.put("employeeClass", employeeClassConstant.getValue());
+		/* Change */
+//		SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
+		SFConstants employeeClassConstant = null;
+		if (country != null) {
+            employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + country); 
+            if(employeeClassConstant != null){
+            	obj.put("employeeClass", employeeClassConstant.getValue());
+            }            
+        }		
 		obj.put("payGrade", payGrade);
 		obj.put(paramPositionName, paramPositionValue);
 		obj.put("location", location);

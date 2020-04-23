@@ -343,8 +343,10 @@ public class PreHireManagerController {
 				returnPositions.add(pos);
 
 			}
-
-			SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
+			/* Change */
+			//SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
+			SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + paraMap.get("country"));
+			
 			SFConstants empStatusConstant = sfConstantsService.findById("emplStatusId");
 			Date today = new Date();
 			String currentdate = Long.toString(today.getTime());
@@ -358,8 +360,7 @@ public class PreHireManagerController {
 							+ paraMap.get("company") + "' and cust_DEPARTMENT eq '" + paraMap.get("department") + "'");
 			String mdfDataJsonString = EntityUtils.toString(mdfData.getEntity(), "UTF-8");
 			JSONObject mdfDataResponseObject = new JSONObject(mdfDataJsonString);
-			JSONArray mdfDataResponseObjectResultArray = mdfDataResponseObject.getJSONObject("d")
-					.getJSONArray("results");
+			JSONArray mdfDataResponseObjectResultArray = mdfDataResponseObject.getJSONObject("d").getJSONArray("results");
 			for (int i = 0; i < mdfDataResponseObjectResultArray.length(); i++) {
 				JSONObject mdfDataObj = mdfDataResponseObjectResultArray.getJSONObject(i);
 				String updatedOn = mdfDataObj.getString("cust_UPDATED_ON");
@@ -389,8 +390,7 @@ public class PreHireManagerController {
 
 						String empResponseJsonString = EntityUtils.toString(empResponse.getEntity(), "UTF-8");
 						JSONObject empResponseObject = new JSONObject(empResponseJsonString);
-						JSONObject empResultObject = empResponseObject.getJSONObject("d").getJSONArray("results")
-								.getJSONObject(0);
+						JSONObject empResultObject = empResponseObject.getJSONObject("d").getJSONArray("results").getJSONObject(0);
 
 						DashBoardPositionClass pos = new DashBoardPositionClass();
 						pos.setPayGrade(empResultObject.getString("payGrade"));
@@ -564,8 +564,10 @@ public class PreHireManagerController {
 			compareMap.put("department", empJobResponseObject.getJSONObject("positionNav").getString("department"));
 			compareMap.put("country",
 					empJobResponseObject.getJSONObject("positionNav").getJSONObject("companyNav").getString("country"));
-
-			SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
+			/* Change */
+//			SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
+			SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + empJobResponseObject.getJSONObject("positionNav").getJSONObject("companyNav").getString("country"));
+			
 			SFConstants empStatusConstant = sfConstantsService.findById("emplStatusId");
 
 			HttpResponse positionResponse = destClient.callDestinationGET("/Position", "?$filter=code eq '" + position
@@ -1814,13 +1816,10 @@ public class PreHireManagerController {
 
 			Map<String, String> entityMap = new HashMap<String, String>();
 
-			entityMap.put("User", "?$filter=userId eq '" + map.get("userId") + "'&$format=json&$select=defaultLocale");
-			/*
-			 * entityMap.put("EmpPayCompRecurring", "?$filter=userId eq '" +
-			 * map.get("userId") + "'&fromDate=" + dateString +
-			 * "&$format=json&$select=userId,startDate,payComponent,paycompvalue,currencyCode,frequency,notes"
-			 * );
-			 */
+			entityMap.put("User", "?$filter=userId eq '" + map.get("userId") + "'&$format=json&$select=defaultLocale,title");
+			entityMap.put("EmpPayCompRecurring", "?$filter=userId eq '" + map.get("userId") + "'&fromDate=" + dateString +
+					"&$format=json&$select=userId,startDate,payComponent,paycompvalue,currencyCode,frequency,notes");
+			 
 			/*
 			 * entityMap.put("EmpCompensation", "?$filter=userId eq '" + map.get("userId") +
 			 * "'&fromDate=" + dateString +
@@ -1835,15 +1834,14 @@ public class PreHireManagerController {
 			 * );
 			 */
 			entityMap.put("PerPersonal", "?$filter=personIdExternal eq '" + map.get("userId") + "'&fromDate="
-					+ dateString
-					+ "&$format=json&$select=startDate,personIdExternal,birthName,initials,maritalStatus,certificateStartDate,namePrefix,salutation,nativePreferredLang,since,gender,lastName,nameFormat,firstName,certificateEndDate,preferredName,secondNationality,formalName,nationality");
+					+ dateString + "&$format=json&$select=startDate,personIdExternal,birthName,initials,maritalStatus,salutation,nativePreferredLang,since,gender,lastName,firstName,preferredName,secondNationality,formalName,nationality");
 
 			entityMap.put("PerAddressDEFLT", "?$filter=personIdExternal eq '" + map.get("userId") + "'&fromDate="
 					+ dateString
 					+ "&$format=json&$expand=countryNav&$select=startDate,personIdExternal,addressType,address1,address2,address3,city,zipCode,country,address7,address6,address5,address4,county,address9,address8,countryNav/territoryName");
 
 			entityMap.put("EmpJob", "?$filter=userId eq '" + map.get("userId") + "'&fromDate=" + dateString
-					+ "&$format=json&$expand=positionNav/companyNav,positionNav&$select=positionNav/companyNav/country,jobTitle,startDate,userId,jobCode,employmentType,workscheduleCode,division,standardHours,costCenter,payGrade,department,timeTypeProfileCode,businessUnit,managerId,position,employeeClass,countryOfCompany,location,holidayCalendarCode,company,eventReason,contractEndDate,contractType,positionNav/externalName_localized");
+					+ "&$format=json&$expand=positionNav/companyNav,positionNav&$select=positionNav/companyNav/country,startDate,userId,jobCode,employmentType,workscheduleCode,division,standardHours,costCenter,payGrade,department,timeTypeProfileCode,businessUnit,managerId,position,employeeClass,countryOfCompany,location,holidayCalendarCode,company,eventReason,contractEndDate,contractType,positionNav/externalName_localized");
 			entityMap.put("PerPerson", "?$filter=personIdExternal  eq '" + map.get("userId") + "'&fromDate="
 					+ dateString + "&$format=json&$select=personIdExternal,dateOfBirth,placeOfBirth,perPersonUuid");
 			entityMap.put("PerEmail", "?$filter=personIdExternal eq '" + map.get("userId") + "'&fromDate=" + dateString
