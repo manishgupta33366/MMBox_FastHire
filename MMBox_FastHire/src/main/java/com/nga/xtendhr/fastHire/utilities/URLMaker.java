@@ -235,6 +235,10 @@ public class URLMaker {
 		case "NewPhotoController":
 			urlToMake = urlToMake + "upsert?$format=json";
 			break;
+			
+		case "NationalIdController":
+			urlToMake = urlToMake + "upsert?$format=json";
+			break;
 
 		default:
 			break;

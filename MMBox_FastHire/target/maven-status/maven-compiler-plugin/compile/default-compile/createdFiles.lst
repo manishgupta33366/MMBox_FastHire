@@ -76,6 +76,7 @@ com\nga\xtendhr\fastHire\controller\PreHireManagerController$2.class
 com\nga\xtendhr\fastHire\service\FieldGroupTextService.class
 com\nga\xtendhr\fastHire\service\TemplateServiceImp.class
 com\nga\xtendhr\fastHire\service\CodeListTextService.class
+com\nga\xtendhr\fastHire\controller\NationalIdController.class
 com\nga\xtendhr\fastHire\controller\ManagerIDController.class
 com\nga\xtendhr\fastHire\utilities\CommonFunctions.class
 com\nga\xtendhr\fastHire\model\ContractCriteria.class

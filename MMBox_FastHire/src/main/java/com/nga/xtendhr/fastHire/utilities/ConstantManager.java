@@ -73,7 +73,9 @@ public class ConstantManager {
 	public static final String empCompensation = "/SF/Compensation";
 	public static final String empPayCompRecurring = "/SF/PayComp";
 	public static final String posVacancy = "/SF/Vacancy";
-	public static final String newPhoto = "/SF/Photo";
+	public static final String newPhoto = "/SF/Photo";	
+	public static final String attachment = "/SF/Attachment";
+	public static final String perNationalId = "/SF/PerNationalId";
 	
 	// End SF api specific constants
 

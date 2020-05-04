@@ -73,7 +73,7 @@ public class URLManager {
 	 * @return String
 	 */
 	public String formURLToCall() {
-		String dUrl = destinationURL()+"/";
+		String dUrl = destinationURL() + "/";
 
 		switch (controllerClass) {
 		case "PaymentInfoController":
@@ -240,6 +240,11 @@ public class URLManager {
 			break;	
 			
 		case "NewPhotoController":
+			urlMaker = new URLMaker(controllerClass);
+			dUrl = dUrl + urlMaker.urlToMake;
+			break;
+			
+		case "NationalIdController":
 			urlMaker = new URLMaker(controllerClass);
 			dUrl = dUrl + urlMaker.urlToMake;
 			break;
