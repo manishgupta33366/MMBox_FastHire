@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -304,33 +303,43 @@ public class PreHireManagerController {
 			for (int i = 0; i < vacantPosResultArray.length(); i++) {
 				JSONObject vacantPos = vacantPosResultArray.getJSONObject(i);
 				DashBoardPositionClass pos = new DashBoardPositionClass();
-				
-				//pos.setPayGrade(vacantPos.getString("payGrade"));
-				/* Vacant Position PayGrade is not Mandatory Field, it can have null value also*/
+
+				// pos.setPayGrade(vacantPos.getString("payGrade"));
+				/*
+				 * Vacant Position PayGrade is not Mandatory Field, it can have null value also
+				 */
 				logger.debug("Vacant position Paygrade: " + vacantPos);
-				if (!vacantPos.isNull("payGrade")){
-				    pos.setPayGrade(vacantPos.getString("payGrade"));
-				}else{
-				    pos.setPayGrade(null);
-				}							
-				
+				if (!vacantPos.isNull("payGrade")) {
+					pos.setPayGrade(vacantPos.getString("payGrade"));
+				} else {
+					pos.setPayGrade(null);
+				}
+
 				pos.setPositionCode(vacantPos.getString("code"));
 				pos.setPositionTitle(vacantPos.getString("externalName_localized") != null
 						? vacantPos.getString("externalName_localized")
 						: vacantPos.getString("externalName_defaultValue"));// null
 																			// check
-				/*pos.setEmployeeClassName(
-						vacantPos.getJSONObject("employeeClassNav").getString("label_localized") != null
-								? vacantPos.getJSONObject("employeeClassNav").getString("label_localized")
-								: vacantPos.getJSONObject("employeeClassNav").getString("label_defaultValue"));*/// null
-				/* Vacant Position EmployeeClassNav is not Mandatory Field, it can have null value also */																								// check
-				if (!(vacantPos.get("employeeClassNav").toString().equalsIgnoreCase("null"))){
-					    pos.setEmployeeClassName(
-					        vacantPos.getJSONObject("employeeClassNav").getString("label_localized") != null
-					        ? vacantPos.getJSONObject("employeeClassNav").getString("label_localized")
-					        : vacantPos.getJSONObject("employeeClassNav").getString("label_defaultValue"));// null	                                                                                                                // check   
-				}else{
-					 pos.setEmployeeClassName(null);
+				/*
+				 * pos.setEmployeeClassName(
+				 * vacantPos.getJSONObject("employeeClassNav").getString("label_localized") !=
+				 * null ?
+				 * vacantPos.getJSONObject("employeeClassNav").getString("label_localized") :
+				 * vacantPos.getJSONObject("employeeClassNav").getString("label_defaultValue"));
+				 */// null
+				/*
+				 * Vacant Position EmployeeClassNav is not Mandatory Field, it can have null
+				 * value also
+				 */ // check
+				if (!(vacantPos.get("employeeClassNav").toString().equalsIgnoreCase("null"))) {
+					pos.setEmployeeClassName(
+							vacantPos.getJSONObject("employeeClassNav").getString("label_localized") != null
+									? vacantPos.getJSONObject("employeeClassNav").getString("label_localized")
+									: vacantPos.getJSONObject("employeeClassNav").getString("label_defaultValue"));// null
+																													// //
+																													// check
+				} else {
+					pos.setEmployeeClassName(null);
 				}
 				pos.setUserFirstName(null);
 				pos.setUserLastName(null);
@@ -344,9 +353,11 @@ public class PreHireManagerController {
 
 			}
 			/* Change */
-			//SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
-			SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + paraMap.get("country"));
-			
+			// SFConstants employeeClassConstant =
+			// sfConstantsService.findById("employeeClassId");
+			SFConstants employeeClassConstant = sfConstantsService
+					.findById("employeeClassIdHire_" + paraMap.get("country"));
+
 			SFConstants empStatusConstant = sfConstantsService.findById("emplStatusId");
 			Date today = new Date();
 			String currentdate = Long.toString(today.getTime());
@@ -360,7 +371,8 @@ public class PreHireManagerController {
 							+ paraMap.get("company") + "' and cust_DEPARTMENT eq '" + paraMap.get("department") + "'");
 			String mdfDataJsonString = EntityUtils.toString(mdfData.getEntity(), "UTF-8");
 			JSONObject mdfDataResponseObject = new JSONObject(mdfDataJsonString);
-			JSONArray mdfDataResponseObjectResultArray = mdfDataResponseObject.getJSONObject("d").getJSONArray("results");
+			JSONArray mdfDataResponseObjectResultArray = mdfDataResponseObject.getJSONObject("d")
+					.getJSONArray("results");
 			for (int i = 0; i < mdfDataResponseObjectResultArray.length(); i++) {
 				JSONObject mdfDataObj = mdfDataResponseObjectResultArray.getJSONObject(i);
 				String updatedOn = mdfDataObj.getString("cust_UPDATED_ON");
@@ -390,28 +402,32 @@ public class PreHireManagerController {
 
 						String empResponseJsonString = EntityUtils.toString(empResponse.getEntity(), "UTF-8");
 						JSONObject empResponseObject = new JSONObject(empResponseJsonString);
-						JSONObject empResultObject = empResponseObject.getJSONObject("d").getJSONArray("results").getJSONObject(0);
+						JSONObject empResultObject = empResponseObject.getJSONObject("d").getJSONArray("results")
+								.getJSONObject(0);
 
 						DashBoardPositionClass pos = new DashBoardPositionClass();
-						
+
 						/* pos.setPayGrade(empResultObject.getString("payGrade")); */
 						logger.debug("empResultObject Paygrade: " + empResultObject);
-						if(!empResultObject.isNull("payGrade")){
+						if (!empResultObject.isNull("payGrade")) {
 							pos.setPayGrade(empResultObject.getString("payGrade"));
-						}else{
+						} else {
 							pos.setPayGrade(null);
-						}						
+						}
 						pos.setPositionCode(empResultObject.getString("code"));
 						pos.setPositionTitle(empResultObject.getString("externalName_localized") != null
 								? empResultObject.getString("externalName_localized")
 								: empResultObject.getString("externalName_defaultValue"));// null
 																							// check
-						/*pos.setEmployeeClassName(
-								empResultObject.getJSONObject("employeeClassNav").getString("label_localized") != null
-										? empResultObject.getJSONObject("employeeClassNav").getString("label_localized")
-										: empResultObject.getJSONObject("employeeClassNav")
-												.getString("label_defaultValue"));*/// null
-																					// check
+						/*
+						 * pos.setEmployeeClassName(
+						 * empResultObject.getJSONObject("employeeClassNav").getString(
+						 * "label_localized") != null ?
+						 * empResultObject.getJSONObject("employeeClassNav").getString(
+						 * "label_localized") : empResultObject.getJSONObject("employeeClassNav")
+						 * .getString("label_defaultValue"));
+						 */// null
+							// check
 						pos.setUserFirstName(userResponseObject.getString("firstName"));
 						pos.setUserLastName(userResponseObject.getString("lastName"));
 						pos.setUserId(mdfDataObj.getString("externalCode"));
@@ -441,21 +457,23 @@ public class PreHireManagerController {
 
 			// get OnGoing Hiring
 			// get OnGoing Hiring Candidate those are correctly initiated
-			HttpResponse ongoingPosResponse = destClient.callDestinationGET("/EmpJob", "?$format=json&$filter="
-					+ "employeeClass eq '" + employeeClassConstant.getValue() + "' and " + "company eq '"
-					+ paraMap.get("company") + "' and " + "department eq '" + paraMap.get("department") + "' and "
-					+ "emplStatusNav/id ne '" + empStatusConstant.getValue() + "' "
-					+ "and userNav/userId ne null &$expand=positionNav,userNav,"
-					
+			HttpResponse ongoingPosResponse = destClient.callDestinationGET("/EmpJob",
+					"?$format=json&$filter=" + "employeeClass eq '" + employeeClassConstant.getValue() + "' and "
+							+ "company eq '" + paraMap.get("company") + "' and " + "department eq '"
+							+ paraMap.get("department") + "' and " + "emplStatusNav/id ne '"
+							+ empStatusConstant.getValue() + "' "
+							+ "and userNav/userId ne null &$expand=positionNav,userNav,"
+
 //					+ "positionNav/employeeClassNav,userNav/personKeyNav" //Line commented
-					+ "userNav/personKeyNav,employeeClassNav/picklistLabels"
-					
-					+ "&$select=userId,startDate,customString11,position," + "positionNav/externalName_localized,"
-					+ "positionNav/externalName_defaultValue," + "positionNav/payGrade,positionNav/jobTitle,"
-					+ "userNav/userId,userNav/username,userNav/defaultFullName," + "userNav/firstName,userNav/lastName,"
-					+ "positionNav/employeeClassNav/label_localized,"
-					+ "positionNav/employeeClassNav/label_defaultValue," + "userNav/personKeyNav/perPersonUuid"
-					+ ",employeeClass,employeeClassNav/picklistLabels/label"); // New Line added
+							+ "userNav/personKeyNav,employeeClassNav/picklistLabels"
+
+							+ "&$select=userId,startDate,customString11,position,"
+							+ "positionNav/externalName_localized," + "positionNav/externalName_defaultValue,"
+							+ "positionNav/payGrade,positionNav/jobTitle,"
+							+ "userNav/userId,userNav/username,userNav/defaultFullName,"
+							+ "userNav/firstName,userNav/lastName," + "positionNav/employeeClassNav/label_localized,"
+							+ "positionNav/employeeClassNav/label_defaultValue," + "userNav/personKeyNav/perPersonUuid"
+							+ ",employeeClass,employeeClassNav/picklistLabels/label"); // New Line added
 
 			String ongoingPosResponseJsonString = EntityUtils.toString(ongoingPosResponse.getEntity(), "UTF-8");
 			JSONObject ongoingPosResponseObject = new JSONObject(ongoingPosResponseJsonString);
@@ -471,27 +489,32 @@ public class PreHireManagerController {
 								.containsKey(ongoingPos.getJSONObject("userNav").getString("userId")))) {
 
 					DashBoardPositionClass pos = new DashBoardPositionClass();
-					/*pos.setPayGrade(ongoingPos.getJSONObject("positionNav").getString("payGrade"));*/	
-					logger.debug("Ongoing position positionNav: " + ongoingPos.getJSONObject("positionNav"));					
+					/*
+					 * pos.setPayGrade(ongoingPos.getJSONObject("positionNav").getString("payGrade")
+					 * );
+					 */
+					logger.debug("Ongoing position positionNav: " + ongoingPos.getJSONObject("positionNav"));
 					JSONObject positionNavObj = ongoingPos.getJSONObject("positionNav");
-                    if(!positionNavObj.isNull("payGrade")) {
-                        pos.setPayGrade(ongoingPos.getJSONObject("positionNav").getString("payGrade"));
-                    }else{
-                        pos.setPayGrade(null);
-                    }					
-                                        
+					if (!positionNavObj.isNull("payGrade")) {
+						pos.setPayGrade(ongoingPos.getJSONObject("positionNav").getString("payGrade"));
+					} else {
+						pos.setPayGrade(null);
+					}
+
 					pos.setPositionCode(ongoingPos.getString("position"));
 					pos.setPositionTitle(
 							ongoingPos.getJSONObject("positionNav").getString("externalName_localized") != null
 									? ongoingPos.getJSONObject("positionNav").getString("externalName_localized")
 									: ongoingPos.getJSONObject("positionNav").getString("externalName_defaultValue"));
 					/* Line is commented out */
-					/*pos.setEmployeeClassName(ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
-							.getString("label_localized") != null
-									? ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
-											.getString("label_localized")
-									: ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
-											.getString("label_defaultValue"));*/
+					/*
+					 * pos.setEmployeeClassName(ongoingPos.getJSONObject("positionNav").
+					 * getJSONObject("employeeClassNav") .getString("label_localized") != null ?
+					 * ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
+					 * .getString("label_localized") :
+					 * ongoingPos.getJSONObject("positionNav").getJSONObject("employeeClassNav")
+					 * .getString("label_defaultValue"));
+					 */
 					pos.setUserFirstName(ongoingPos.getJSONObject("userNav").getString("firstName"));
 					pos.setUserLastName(ongoingPos.getJSONObject("userNav").getString("lastName"));
 					pos.setUserId(ongoingPos.getJSONObject("userNav").getString("userId"));
@@ -581,8 +604,10 @@ public class PreHireManagerController {
 					empJobResponseObject.getJSONObject("positionNav").getJSONObject("companyNav").getString("country"));
 			/* Change */
 //			SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
-			SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + empJobResponseObject.getJSONObject("positionNav").getJSONObject("companyNav").getString("country"));
-			
+			SFConstants employeeClassConstant = sfConstantsService
+					.findById("employeeClassIdHire_" + empJobResponseObject.getJSONObject("positionNav")
+							.getJSONObject("companyNav").getString("country"));
+
 			SFConstants empStatusConstant = sfConstantsService.findById("emplStatusId");
 
 			HttpResponse positionResponse = destClient.callDestinationGET("/Position", "?$filter=code eq '" + position
@@ -1609,10 +1634,12 @@ public class PreHireManagerController {
 																		// in the request
 
 					entityMap.put("EmpEmployment", "?$filter=personIdExternal eq '" + map.get("userId")
-							+ "'&$format=json&$select=userId,startDate,personIdExternal");	
-					entityMap.put("PerPersonal", "?$filter=personIdExternal eq '" + map.get("userId") + "'&$format=json&$select=startDate,personIdExternal,birthName,initials,maritalStatus,salutation,nativePreferredLang,since,gender,lastName,firstName,preferredName,secondNationality,formalName,nationality,title,preferredName,middleName");					
-					entityMap.put("EmpJob", "?$filter=userId eq '" + map.get("userId") + "'&$format=json&$expand=positionNav/companyNav,positionNav&$select=positionNav/externalName_localized,positionNav/companyNav/country,startDate,userId,jobCode,employmentType,workscheduleCode,division,standardHours,costCenter,payGrade,department,timeTypeProfileCode,businessUnit,managerId,position,employeeClass,countryOfCompany,location,holidayCalendarCode,company,eventReason,contractEndDate,contractType,payScaleArea,payScaleType,jobCode,customString1,customString2,customString3,customString4,payScaleGroup,employeeType,regularTemp");
-					
+							+ "'&$format=json&$select=userId,startDate,personIdExternal");
+					entityMap.put("PerPersonal", "?$filter=personIdExternal eq '" + map.get("userId")
+							+ "'&$format=json&$select=startDate,personIdExternal,birthName,initials,maritalStatus,salutation,nativePreferredLang,since,gender,lastName,firstName,preferredName,secondNationality,formalName,nationality,title,preferredName,middleName");
+					entityMap.put("EmpJob", "?$filter=userId eq '" + map.get("userId")
+							+ "'&$format=json&$expand=positionNav/companyNav,positionNav&$select=positionNav/externalName_localized,positionNav/companyNav/country,startDate,userId,jobCode,employmentType,workscheduleCode,division,standardHours,costCenter,payGrade,department,timeTypeProfileCode,businessUnit,managerId,position,employeeClass,countryOfCompany,location,holidayCalendarCode,company,eventReason,contractEndDate,contractType,payScaleArea,payScaleType,jobCode,customString1,customString2,customString3,customString4,payScaleGroup,employeeType,regularTemp");
+
 					entityMap.put("PerPerson", "?$filter=personIdExternal  eq '" + map.get("userId")
 							+ "'&$format=json&$select=personIdExternal,dateOfBirth,placeOfBirth,perPersonUuid,countryOfBirth");
 					entityMap.put("PerEmail", "?$filter=personIdExternal eq '" + map.get("userId")
@@ -1654,9 +1681,11 @@ public class PreHireManagerController {
 							if (enityKey.equalsIgnoreCase("EmpJob")) {
 								batchObject.put("startDate", map.get("startDate"));
 								if (batchObject.getString("countryOfCompany") != null) {
-									// SFConstants employeeClassConst = sfConstantsService.findById("employeeClassId_" + batchObject.getString("countryOfCompany"));
+									// SFConstants employeeClassConst =
+									// sfConstantsService.findById("employeeClassId_" +
+									// batchObject.getString("countryOfCompany"));
 									// batchObject.put("employeeClass", employeeClassConst.getValue());
-									/* Changes */ 
+									/* Changes */
 									batchObject.put("employeeClass", map.get("employeeClass"));
 									batchObject.put("employmentType", map.get("employmentType"));
 								}
@@ -1702,11 +1731,15 @@ public class PreHireManagerController {
 													if (entity.getKey().equalsIgnoreCase("EmpJob")) {
 														getresultObj.put("startDate", map.get("startDate"));
 														if (getresultObj.getString("countryOfCompany") != null) {
-															/* Changes*/ 
-															//SFConstants employeeClassConst = sfConstantsService.findById("employeeClassId_" + getresultObj.getString("countryOfCompany"));
-															//getresultObj.put("employeeClass", employeeClassConst.getValue());
+															/* Changes */
+															// SFConstants employeeClassConst =
+															// sfConstantsService.findById("employeeClassId_" +
+															// getresultObj.getString("countryOfCompany"));
+															// getresultObj.put("employeeClass",
+															// employeeClassConst.getValue());
 															getresultObj.put("employeeClass", map.get("employeeClass"));
-															getresultObj.put("employmentType", map.get("employmentType"));
+															getresultObj.put("employmentType",
+																	map.get("employmentType"));
 														}
 
 														// remove countryOfCompany due to un
@@ -1741,13 +1774,15 @@ public class PreHireManagerController {
 
 													String postJsonString = getresultObj.toString();
 
-													HttpResponse updateresponse = destClient.callDestinationPOST("/upsert", "?$format=json&purgeType=full", postJsonString);
+													HttpResponse updateresponse = destClient.callDestinationPOST(
+															"/upsert", "?$format=json&purgeType=full", postJsonString);
 													// String entityPostResponseJsonString =
 													// EntityUtils.toString(updateresponse.getEntity(),
 													// "UTF-8");
 													if (updateresponse.getStatusLine().getStatusCode() != 200) {
 														mdfPostStatus = postPersonStatusMDF(
-																destClient, sfentityObject.getJSONObject("EmpJob").getString("userId"),
+																destClient, sfentityObject.getJSONObject("EmpJob")
+																		.getString("userId"),
 																"sf", "FAILED", entity.getKey());
 														logger.debug("MDF POst 8 status: " + mdfPostStatus);
 													}
@@ -1757,12 +1792,15 @@ public class PreHireManagerController {
 											}
 										}
 									}
-									JSONObject mdfStatus = getPersonStatusMDF(destClient, sfentityObject.getJSONObject("EmpJob").getString("userId"));
+									JSONObject mdfStatus = getPersonStatusMDF(destClient,
+											sfentityObject.getJSONObject("EmpJob").getString("userId"));
 
 									if (!(String.valueOf(mdfStatus.get("cust_IS_SF_ENTITY_SUCCESS")).equalsIgnoreCase(
 											"null") ? "" : mdfStatus.getString("cust_IS_SF_ENTITY_SUCCESS"))
 													.equalsIgnoreCase("FAILED")) {
-										mdfPostStatus = postPersonStatusMDF(destClient, sfentityObject.getJSONObject("EmpJob").getString("userId"), "sf", "SUCCESS", null);
+										mdfPostStatus = postPersonStatusMDF(destClient,
+												sfentityObject.getJSONObject("EmpJob").getString("userId"), "sf",
+												"SUCCESS", null);
 										logger.debug("MDF POst 9 status: " + mdfPostStatus);
 									}
 
@@ -1790,7 +1828,9 @@ public class PreHireManagerController {
 				}
 				logger.debug("Access Error: user: " + loggedInUser
 						+ "tried confirming a position which is not its Direct report!");
-				return new ResponseEntity<>("Error: You are not authorized to confirm this user! This event has be logged!", HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<>(
+						"Error: You are not authorized to confirm this user! This event has be logged!",
+						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			logger.debug("Error: StartDate is less then 1 days!");
 			return new ResponseEntity<>("Error: StartDate is less then 1 days!", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -1829,10 +1869,11 @@ public class PreHireManagerController {
 
 			Map<String, String> entityMap = new HashMap<String, String>();
 
-			entityMap.put("User", "?$filter=userId eq '" + map.get("userId") + "'&$format=json&$select=defaultLocale,title");
-			entityMap.put("EmpPayCompRecurring", "?$filter=userId eq '" + map.get("userId") + "'&fromDate=" + dateString +
-					"&$format=json&$select=userId,startDate,payComponent,paycompvalue,currencyCode,frequency,notes");
-			 
+			entityMap.put("User",
+					"?$filter=userId eq '" + map.get("userId") + "'&$format=json&$select=defaultLocale,title");
+			entityMap.put("EmpPayCompRecurring", "?$filter=userId eq '" + map.get("userId") + "'&fromDate=" + dateString
+					+ "&$format=json&$select=userId,startDate,payComponent,paycompvalue,currencyCode,frequency,notes");
+
 			/*
 			 * entityMap.put("EmpCompensation", "?$filter=userId eq '" + map.get("userId") +
 			 * "'&fromDate=" + dateString +
@@ -1847,7 +1888,8 @@ public class PreHireManagerController {
 			 * );
 			 */
 			entityMap.put("PerPersonal", "?$filter=personIdExternal eq '" + map.get("userId") + "'&fromDate="
-					+ dateString + "&$format=json&$select=startDate,personIdExternal,birthName,initials,maritalStatus,salutation,nativePreferredLang,since,gender,lastName,firstName,preferredName,secondNationality,formalName,nationality");
+					+ dateString
+					+ "&$format=json&$select=startDate,personIdExternal,birthName,initials,maritalStatus,salutation,nativePreferredLang,since,gender,lastName,firstName,preferredName,secondNationality,formalName,nationality");
 
 			entityMap.put("PerAddressDEFLT", "?$filter=personIdExternal eq '" + map.get("userId") + "'&fromDate="
 					+ dateString
@@ -1897,24 +1939,10 @@ public class PreHireManagerController {
 			HttpResponse response = generateDoc(docGenerationObject.toString(), loggedInUser, httpResponse);
 			String msg = response.getAllHeaders()[0].getValue();
 			if (response != null && !msg.equals("NoTemplateFound")) {
-				if (response.getStatusLine().getStatusCode() == 200) {
-					String docGenerationResponseJsonString = EntityUtils.toString(response.getEntity(), "UTF-8");
-//			  String stringBody = response.getBody();
-					logger.debug("docGenerationResponseJsonString: " + docGenerationResponseJsonString);
-					JSONObject docJson = new JSONObject(docGenerationResponseJsonString);
-					if (docJson.getString("status").equalsIgnoreCase("SUCCESS")) {
-						logger.debug("docJson.document " + docJson.getString("document"));
-						byte[] decodedString = Base64
-								.decodeBase64(new String(docJson.getString("document")).getBytes("UTF-8"));
-						mdfPostStatus = postPersonStatusMDF(destClient, personId, "doc", "SUCCESS", null);
-						logger.debug("MDF POst 10 status: " + mdfPostStatus);
-						return ResponseEntity.ok().body(decodedString);
-//				 logger.debug("bytes " + decodedString);
-					} else {
-						mdfPostStatus = postPersonStatusMDF(destClient, personId, "doc", "FAILED", null);
-						logger.debug("MDF POst 11 status: " + mdfPostStatus);
-					}
-
+				if (msg.equals("Success")) {
+					mdfPostStatus = postPersonStatusMDF(destClient, personId, "doc", "SUCCESS", null);
+					logger.debug("MDF POst 10 status: " + mdfPostStatus);
+					return ResponseEntity.ok().body("Success!");
 				} else {
 					mdfPostStatus = postPersonStatusMDF(destClient, personId, "doc", "FAILED", null);
 					logger.debug("MDF POst 12 status: " + mdfPostStatus);
@@ -2166,8 +2194,7 @@ public class PreHireManagerController {
 			return new ResponseEntity<>("Error: " + e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	
+
 	@GetMapping(value = "/DirectReports")
 	public ResponseEntity<List<DirectReport>> getDirectReports(HttpServletRequest request)
 			throws NamingException, ClientProtocolException, IOException, URISyntaxException, java.text.ParseException {
@@ -2195,11 +2222,12 @@ public class PreHireManagerController {
 					+ "' &$format=json&$expand=directReports&$select=directReports/userId,directReports/defaultFullName,directReports/title");
 			String empJobResponseJsonString = EntityUtils.toString(empJobResponse.getEntity(), "UTF-8");
 			JSONObject empJobResponseObject = new JSONObject(empJobResponseJsonString);
-			logger.debug("empJobResponseObject in Direct Report:  " + empJobResponseObject.toString());			
+			logger.debug("empJobResponseObject in Direct Report:  " + empJobResponseObject.toString());
 			empJobResponseObject = empJobResponseObject.getJSONObject("d").getJSONArray("results").getJSONObject(0);
-			JSONArray empJobResponseObjectArray = empJobResponseObject.getJSONObject("directReports").getJSONArray("results");
-			logger.debug("empJobResponseObjectArray in Direct Report:  " + empJobResponseObjectArray);	
-			
+			JSONArray empJobResponseObjectArray = empJobResponseObject.getJSONObject("directReports")
+					.getJSONArray("results");
+			logger.debug("empJobResponseObjectArray in Direct Report:  " + empJobResponseObjectArray);
+
 			for (int i = 0; i < empJobResponseObjectArray.length(); i++) {
 				JSONObject empResultObject = empJobResponseObjectArray.getJSONObject(i);
 				DirectReport directReport = new DirectReport();
@@ -2207,7 +2235,7 @@ public class PreHireManagerController {
 				directReport.setDefaultFullName(empResultObject.getString("defaultFullName"));
 				directReport.setTitle(empResultObject.getString("title"));
 				directReports.add(directReport);
-			}			
+			}
 			// return the JSON Object
 			return ResponseEntity.ok().body(directReports);
 		} catch (Exception e) {
@@ -2215,9 +2243,10 @@ public class PreHireManagerController {
 			return null;
 		}
 	}
-	
+
 	@GetMapping(value = "/CustomerEmpSubgroup")
-	public ResponseEntity<List<ResponseKeyValue>> getCustomerSubGroup(HttpServletRequest request, @RequestParam(value = "legalEntity", required = true) String legalEntity,
+	public ResponseEntity<List<ResponseKeyValue>> getCustomerSubGroup(HttpServletRequest request,
+			@RequestParam(value = "legalEntity", required = true) String legalEntity,
 			@RequestParam(value = "employeeGroup", required = true) String employeeGroup) {
 		try {
 			HttpSession session = request.getSession(false);
@@ -2234,37 +2263,41 @@ public class PreHireManagerController {
 			destClient.setConfiguration();
 			destClient.setDestConfiguration();
 			destClient.setHeaders(destClient.getDestProperty("Authentication"));
-			
+
 			// get the Employee Subgroup Details of the logged In user
-			HttpResponse empSubGroupResponse = destClient.callDestinationGET("/cust_EmployeeSubgroup", "?$format=json&$expand=cust_toLegalEntity,cust_toEmployeeGroup&$filter=cust_toLegalEntity/externalCode eq '" + legalEntity
-							+ "' and cust_toEmployeeGroup/externalCode eq '" + employeeGroup + "'&$select=externalCode,externalName_localized");		
-						
+			HttpResponse empSubGroupResponse = destClient.callDestinationGET("/cust_EmployeeSubgroup",
+					"?$format=json&$expand=cust_toLegalEntity,cust_toEmployeeGroup&$filter=cust_toLegalEntity/externalCode eq '"
+							+ legalEntity + "' and cust_toEmployeeGroup/externalCode eq '" + employeeGroup
+							+ "'&$select=externalCode,externalName_localized");
+
 			String empSubGroupResponseJsonString = EntityUtils.toString(empSubGroupResponse.getEntity(), "UTF-8");
 			JSONObject empSubGroupResponseObject = new JSONObject(empSubGroupResponseJsonString);
-			logger.debug("empSubGroupResponseObject in CustomerEmpSubgroup:  " + empSubGroupResponseObject.toString());			
+			logger.debug("empSubGroupResponseObject in CustomerEmpSubgroup:  " + empSubGroupResponseObject.toString());
 			JSONArray empJobResponseObjectArray = empSubGroupResponseObject.getJSONObject("d").getJSONArray("results");
-			logger.debug("empSubGroupResponseObjectArray in CustomerEmpSubgroup:  " + empJobResponseObjectArray);	
-						
+			logger.debug("empSubGroupResponseObjectArray in CustomerEmpSubgroup:  " + empJobResponseObjectArray);
+
 			for (int i = 0; i < empJobResponseObjectArray.length(); i++) {
 				JSONObject empSubGroupObject = empJobResponseObjectArray.getJSONObject(i);
-				ResponseKeyValue empSubGroup = new ResponseKeyValue();				
+				ResponseKeyValue empSubGroup = new ResponseKeyValue();
 				empSubGroup.setKey(empSubGroupObject.getString("externalCode"));
-				empSubGroup.setValue(empSubGroupObject.getString("externalName_localized"));				
+				empSubGroup.setValue(empSubGroupObject.getString("externalName_localized"));
 				empSubGroupArray.add(empSubGroup);
 			}
 			logger.debug("empSubGroupArray in CustomerEmpSubgroup:  " + empSubGroupArray);
 			// return the JSON Array
-			
+
 			return ResponseEntity.ok().body(empSubGroupArray);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	@GetMapping(value = "/PayScaleGroup")
-	public ResponseEntity<List<ResponseKeyValue>> getPayScaleGroups(HttpServletRequest request, @RequestParam(value = "company", required = true) String company,
-			@RequestParam(value = "payScaleType", required = true) String payScaleType, @RequestParam(value = "payScaleArea", required = true) String payScaleArea) {
+	public ResponseEntity<List<ResponseKeyValue>> getPayScaleGroups(HttpServletRequest request,
+			@RequestParam(value = "company", required = true) String company,
+			@RequestParam(value = "payScaleType", required = true) String payScaleType,
+			@RequestParam(value = "payScaleArea", required = true) String payScaleArea) {
 		try {
 			HttpSession session = request.getSession(false);
 			String loggedInUser = request.getUserPrincipal().getName();
@@ -2281,42 +2314,50 @@ public class PreHireManagerController {
 			destClient.setConfiguration();
 			destClient.setDestConfiguration();
 			destClient.setHeaders(destClient.getDestProperty("Authentication"));
-			
+
 			/* Get the Company Details using PayScaleType Input Field */
-			HttpResponse companyResponse = destClient.callDestinationGET("/FOCompany", "?$format=json&$filter=externalCode eq '" + company + "'&$select=country");
+			HttpResponse companyResponse = destClient.callDestinationGET("/FOCompany",
+					"?$format=json&$filter=externalCode eq '" + company + "'&$select=country");
 			String companyResponseJsonString = EntityUtils.toString(companyResponse.getEntity(), "UTF-8");
 			JSONObject companyResponseObject = new JSONObject(companyResponseJsonString);
-			logger.debug("companyResponseObject in CustomerEmpSubgroup:  " + companyResponseObject.toString());			
+			logger.debug("companyResponseObject in CustomerEmpSubgroup:  " + companyResponseObject.toString());
 			JSONArray companyResponseObjectArray = companyResponseObject.getJSONObject("d").getJSONArray("results");
-			logger.debug("companyResponseObjectArray in CustomerEmpSubgroup:  " + companyResponseObjectArray);	
-			country = companyResponseObjectArray.getJSONObject(0).getString("country");			
-			
-			/* Get the PayScale Group Details by using company, PayScaleType and PayScaleArea */
-			HttpResponse payScaleGroupResponse = destClient.callDestinationGET("/PayScaleGroup", "?$format=json&$filter=country eq '" + country
-				+ "' and payScaleAreaNav/code eq '" + payScaleArea + "' and payScaleTypeNav/code eq '" + payScaleType + "'&$expand=payScaleTypeNav,payScaleAreaNav&$select=code,externalName_localized");		
-					
+			logger.debug("companyResponseObjectArray in CustomerEmpSubgroup:  " + companyResponseObjectArray);
+			country = companyResponseObjectArray.getJSONObject(0).getString("country");
+
+			/*
+			 * Get the PayScale Group Details by using company, PayScaleType and
+			 * PayScaleArea
+			 */
+			HttpResponse payScaleGroupResponse = destClient.callDestinationGET("/PayScaleGroup",
+					"?$format=json&$filter=country eq '" + country + "' and payScaleAreaNav/code eq '" + payScaleArea
+							+ "' and payScaleTypeNav/code eq '" + payScaleType
+							+ "'&$expand=payScaleTypeNav,payScaleAreaNav&$select=code,externalName_localized");
+
 			String payScaleGroupResponseJsonString = EntityUtils.toString(payScaleGroupResponse.getEntity(), "UTF-8");
 			JSONObject payScaleGroupResponseObject = new JSONObject(payScaleGroupResponseJsonString);
-			logger.debug("payScaleGroupResponseObject in getPayScaleGroups:  " + payScaleGroupResponseObject.toString());			
-			JSONArray payScaleGroupResponseObjectArray = payScaleGroupResponseObject.getJSONObject("d").getJSONArray("results");
-			logger.debug("payScaleGroupResponseObjectArray in getPayScaleGroups:  " + payScaleGroupResponseObjectArray);	
-						
+			logger.debug(
+					"payScaleGroupResponseObject in getPayScaleGroups:  " + payScaleGroupResponseObject.toString());
+			JSONArray payScaleGroupResponseObjectArray = payScaleGroupResponseObject.getJSONObject("d")
+					.getJSONArray("results");
+			logger.debug("payScaleGroupResponseObjectArray in getPayScaleGroups:  " + payScaleGroupResponseObjectArray);
+
 			for (int i = 0; i < payScaleGroupResponseObjectArray.length(); i++) {
 				JSONObject responseKeyValeObject = payScaleGroupResponseObjectArray.getJSONObject(i);
-				ResponseKeyValue empSubGroup = new ResponseKeyValue();				
+				ResponseKeyValue empSubGroup = new ResponseKeyValue();
 				empSubGroup.setKey(responseKeyValeObject.getString("code"));
-				empSubGroup.setValue(responseKeyValeObject.getString("externalName_localized"));				
+				empSubGroup.setValue(responseKeyValeObject.getString("externalName_localized"));
 				payScaleGroupArray.add(empSubGroup);
 			}
 			logger.debug("payScaleGroupArray in getPayScaleGroups:  " + payScaleGroupArray);
 			// return the JSON Array
-			
+
 			return ResponseEntity.ok().body(payScaleGroupArray);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-	}	
+	}
 
 	public JSONObject readJSONFile(String FilePath) throws IOException {
 		JSONObject jsonObject = null;
@@ -2411,11 +2452,17 @@ public class PreHireManagerController {
 		JSONArray parameters = getReqBodyObj(reqBodyObj, reqObject, templateID);
 		reqBodyObj.put("parameters", parameters);
 		timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-		generateDoc(parameters, templateID, true, httpResponse);
-
-		logger.debug("Doc Genetration: gotRequest");
-		HttpResponse httpResponse2 = new BasicHttpResponse(null, counter, "Success");
-		httpResponse2.setHeader("msg", "Done");
+		String status = generateDoc(parameters, templateID, true, httpResponse);
+		HttpResponse httpResponse2;
+		if (status.equals("Done")) {
+			logger.debug("Doc Genetration: In Success...");
+			httpResponse2 = new BasicHttpResponse(null, counter, "Success");
+			httpResponse2.setHeader("msg", "Success");
+		} else {
+			logger.debug("Doc Genetration: In Error...");
+			httpResponse2 = new BasicHttpResponse(null, counter, "Error");
+			httpResponse2.setHeader("msg", "Error");
+		}
 		return httpResponse2;
 	}
 
@@ -2462,7 +2509,7 @@ public class PreHireManagerController {
 		}
 		response.flushBuffer();
 
-		return "Done!";
+		return "Done";
 	}
 
 	private void replaceTags(XWPFDocument doc, JSONArray requestTagsArray) throws IOException, XmlException {
