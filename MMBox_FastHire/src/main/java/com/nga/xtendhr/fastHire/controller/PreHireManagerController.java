@@ -307,12 +307,12 @@ public class PreHireManagerController {
 				
 				//pos.setPayGrade(vacantPos.getString("payGrade"));
 				/* Vacant Position PayGrade is not Mandatory Field, it can have null value also*/
-				if (!(vacantPos.get("payGrade").toString().equalsIgnoreCase("null"))){
+				logger.debug("Vacant position Paygrade: " + vacantPos);
+				if (!vacantPos.isNull("payGrade")){
 				    pos.setPayGrade(vacantPos.getString("payGrade"));
 				}else{
 				    pos.setPayGrade(null);
-				}
-				
+				}							
 				
 				pos.setPositionCode(vacantPos.getString("code"));
 				pos.setPositionTitle(vacantPos.getString("externalName_localized") != null
@@ -393,7 +393,14 @@ public class PreHireManagerController {
 						JSONObject empResultObject = empResponseObject.getJSONObject("d").getJSONArray("results").getJSONObject(0);
 
 						DashBoardPositionClass pos = new DashBoardPositionClass();
-						pos.setPayGrade(empResultObject.getString("payGrade"));
+						
+						/* pos.setPayGrade(empResultObject.getString("payGrade")); */
+						logger.debug("empResultObject Paygrade: " + empResultObject);
+						if(!empResultObject.isNull("payGrade")){
+							pos.setPayGrade(empResultObject.getString("payGrade"));
+						}else{
+							pos.setPayGrade(null);
+						}						
 						pos.setPositionCode(empResultObject.getString("code"));
 						pos.setPositionTitle(empResultObject.getString("externalName_localized") != null
 								? empResultObject.getString("externalName_localized")
@@ -464,7 +471,15 @@ public class PreHireManagerController {
 								.containsKey(ongoingPos.getJSONObject("userNav").getString("userId")))) {
 
 					DashBoardPositionClass pos = new DashBoardPositionClass();
-					pos.setPayGrade(ongoingPos.getJSONObject("positionNav").getString("payGrade"));
+					/*pos.setPayGrade(ongoingPos.getJSONObject("positionNav").getString("payGrade"));*/	
+					logger.debug("Ongoing position positionNav: " + ongoingPos.getJSONObject("positionNav"));					
+					JSONObject positionNavObj = ongoingPos.getJSONObject("positionNav");
+                    if(!positionNavObj.isNull("payGrade")) {
+                        pos.setPayGrade(ongoingPos.getJSONObject("positionNav").getString("payGrade"));
+                    }else{
+                        pos.setPayGrade(null);
+                    }					
+                                        
 					pos.setPositionCode(ongoingPos.getString("position"));
 					pos.setPositionTitle(
 							ongoingPos.getJSONObject("positionNav").getString("externalName_localized") != null
@@ -1564,7 +1579,7 @@ public class PreHireManagerController {
 			// get post JSON Object
 			JSONObject postObject = new JSONObject(postJson);
 			int startDateCheck = daysBetween(postObject.getString("startDate"));
-			if (startDateCheck >= 3) {
+			if (startDateCheck >= 1) {
 				Iterator<?> keys = postObject.keys();
 				while (keys.hasNext()) {
 					String key = (String) keys.next();
@@ -1775,12 +1790,10 @@ public class PreHireManagerController {
 				}
 				logger.debug("Access Error: user: " + loggedInUser
 						+ "tried confirming a position which is not its Direct report!");
-				return new ResponseEntity<>(
-						"Error: You are not authorized to confirm this user! This event has be logged!",
-						HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<>("Error: You are not authorized to confirm this user! This event has be logged!", HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-			logger.debug("Error: StartDate is less then 3 days!");
-			return new ResponseEntity<>("Error: StartDate is less then 3 days!", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.debug("Error: StartDate is less then 1 days!");
+			return new ResponseEntity<>("Error: StartDate is less then 1 days!", HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("Error: " + e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
