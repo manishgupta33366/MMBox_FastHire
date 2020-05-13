@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-public class AppConfig {
+public class AppConfig{
 	
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
@@ -35,9 +35,8 @@ public class AppConfig {
     }
     
     @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource)
-    {
+    public JdbcTemplate jdbcTemplate(DataSource dataSource){
         return new JdbcTemplate(dataSource);
     }
+    
 }
-

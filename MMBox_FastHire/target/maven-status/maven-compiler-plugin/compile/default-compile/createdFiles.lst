@@ -17,6 +17,7 @@ com\nga\xtendhr\config\AppConfig.class
 com\nga\xtendhr\fastHire\controller\EmployeeClassController.class
 com\nga\xtendhr\fastHire\service\CodeListServiceImp.class
 com\nga\xtendhr\fastHire\controller\PreHireManagerController$1.class
+com\nga\xtendhr\fastHire\docusign\ExampleBase$1.class
 com\nga\xtendhr\fastHire\connections\HttpConnectionPUT.class
 com\nga\xtendhr\fastHire\service\MapCountryBusinessUnitServiceImp.class
 com\nga\xtendhr\fastHire\POJO\Field.class
@@ -25,6 +26,7 @@ com\nga\xtendhr\fastHire\controller\BankController.class
 com\nga\xtendhr\fastHire\utilities\URLManager.class
 com\nga\xtendhr\fastHire\controller\EmpCompensation.class
 com\nga\xtendhr\fastHire\service\MapFieldFieldGroupServiceImp.class
+com\nga\xtendhr\fastHire\controller\DocuSignController.class
 com\nga\xtendhr\fastHire\connections\HttpStatusCodes.class
 com\nga\xtendhr\fastHire\controller\UserEntity.class
 com\nga\xtendhr\fastHire\POJO\FieldGroup.class
@@ -36,12 +38,14 @@ com\nga\xtendhr\fastHire\SF\DestinationClient.class
 com\nga\xtendhr\fastHire\service\CodeListTextServiceImp.class
 com\nga\xtendhr\fastHire\service\MapCountryBusinessUnitTemplateService.class
 com\nga\xtendhr\fastHire\controller\HolidayCalendarController.class
+com\nga\xtendhr\fastHire\docusign\ListEnvelopes.class
 com\nga\xtendhr\fastHire\controller\FastHireCandidateController.class
 com\nga\xtendhr\fastHire\controller\ParentPosMgrController.class
 com\nga\xtendhr\fastHire\service\MapFieldFieldGroupService.class
 com\nga\xtendhr\fastHire\controller\EmailTypeController.class
 com\nga\xtendhr\fastHire\service\FieldService.class
 com\nga\xtendhr\fastHire\service\SFConstantsServiceImp.class
+com\nga\xtendhr\fastHire\docusign\ExampleBase.class
 com\nga\xtendhr\fastHire\utilities\ResponseKeyValue.class
 com\nga\xtendhr\fastHire\utilities\DropDownKeyValue.class
 com\nga\xtendhr\fastHire\utilities\DashBoardPositionClass.class
@@ -82,6 +86,7 @@ com\nga\xtendhr\fastHire\utilities\CommonFunctions.class
 com\nga\xtendhr\fastHire\model\ContractCriteria.class
 com\nga\xtendhr\fastHire\service\TemplateService.class
 com\nga\xtendhr\fastHire\controller\Region_PolandController.class
+com\nga\xtendhr\fastHire\docusign\SendEnvelope.class
 com\nga\xtendhr\fastHire\controller\PayComponentController.class
 com\nga\xtendhr\fastHire\model\Template.class
 com\nga\xtendhr\fastHire\service\SFConstantsService.class
@@ -93,9 +98,11 @@ com\nga\xtendhr\fastHire\connections\HttpConnectionGET.class
 com\nga\xtendhr\fastHire\controller\Language.class
 com\nga\xtendhr\fastHire\service\DocTemplateTagsService.class
 com\nga\xtendhr\fastHire\connections\GetProxy.class
+com\nga\xtendhr\fastHire\docusign\ExampleBase$ICondition.class
 com\nga\xtendhr\fastHire\service\MapTemplateFieldGroupServiceImp.class
 com\nga\xtendhr\fastHire\service\FieldGroupServiceImp.class
 com\nga\xtendhr\fastHire\service\MapTemplateFieldGroupService.class
+com\nga\xtendhr\fastHire\docusign\DSHelper.class
 com\nga\xtendhr\fastHire\POJO\DropDownValue.class
 com\nga\xtendhr\fastHire\model\FieldGroup.class
 com\nga\xtendhr\fastHire\service\FieldGroupService.class
@@ -116,6 +123,7 @@ com\nga\xtendhr\fastHire\service\ContractServiceImp.class
 com\nga\xtendhr\fastHire\model\BusinessUnit.class
 com\nga\xtendhr\fastHire\model\MapFieldFieldGroup.class
 com\nga\xtendhr\fastHire\utilities\ErrorManager.class
+com\nga\xtendhr\fastHire\docusign\DSConfig.class
 com\nga\xtendhr\fastHire\utilities\URLMaker.class
 com\nga\xtendhr\fastHire\model\FieldDataFromSystem.class
 com\nga\xtendhr\fastHire\POJO\Detail.class
@@ -140,6 +148,7 @@ com\nga\xtendhr\fastHire\controller\CustPersonIdGen.class
 com\nga\xtendhr\fastHire\controller\AppConfigurationController.class
 com\nga\xtendhr\fastHire\model\MapTemplateFieldProperties.class
 com\nga\xtendhr\fastHire\service\DocTemplateDetailsServiceImp.class
+com\nga\xtendhr\fastHire\docusign\ExampleBase$2.class
 com\nga\xtendhr\fastHire\authentication\BasicAuthenticationHeaderProvider.class
 com\nga\xtendhr\fastHire\controller\CountryController.class
 com\nga\xtendhr\fastHire\service\ContractCriteriaService.class

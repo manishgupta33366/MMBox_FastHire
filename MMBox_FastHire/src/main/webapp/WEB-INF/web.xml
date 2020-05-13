@@ -86,6 +86,5 @@
 	</security-role>
 	<login-config>
 		<auth-method>FORM</auth-method>
-	</login-config>
-
+	</login-config>    
 </web-app>
