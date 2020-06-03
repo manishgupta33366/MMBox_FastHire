@@ -75,13 +75,12 @@ public class EmpJob {
 
 	private String paramFirmSubCategoryName = null;
 	private String paramFirmSubCategoryValue = null;
-	
+
 	private String paramEmpSubGroupName = null;
 	private String paramEmpSubGroupValue = null;
-	
+
 	private String cust_PersonnelArea = null;
-	private String cust_PersonnelSubarea = null;	
-	
+	private String cust_PersonnelSubarea = null;
 
 	private final String sDate = "startdate";
 	private final String empType = "employmenttype";
@@ -93,8 +92,7 @@ public class EmpJob {
 	private String contractType = "contractType";
 	private String customString1 = "customString1";
 	private String customString2 = "customString2";
-	
-	
+
 	private String jobCode = null;
 	private String company = null;
 	private String businessUnit = null;
@@ -104,12 +102,12 @@ public class EmpJob {
 	private String deparment = null;
 	private String division = null;
 	private String standardHours = null;
-	private String parentCode = null;	
+	private String parentCode = null;
 	private String country = null;
 	private String managerId = null;
 	private String payScaleArea = null;
 	private String payScaleType = null;
-	private String jobTitle = null;	
+	private String jobTitle = null;
 	private String payScaleGroup = null;
 	private String employeeType = null;
 	private String regularTemp = null;
@@ -195,7 +193,8 @@ public class EmpJob {
 			destClient.setDestConfiguration();
 			destClient.setHeaders(destClient.getDestProperty("Authentication"));
 			HttpResponse response = destClient.callDestinationGET("/Position?$filter=code eq '" + position
-					+ "'&$format=json&$expand=parentPosition,companyNav&$select=code,location,payGrade,businessUnit,jobCode,department,division,company,costCenter,standardHours,parentPosition/code,companyNav/country,cust_PersonnelArea,cust_PersonnelSubarea", "");
+					+ "'&$format=json&$expand=parentPosition,companyNav&$select=code,location,payGrade,businessUnit,jobCode,department,division,company,costCenter,standardHours,parentPosition/code,companyNav/country,cust_PersonnelArea,cust_PersonnelSubarea",
+					"");
 			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
 			JSONObject jsonObject = (JSONObject) JSONValue.parse(responseString);
 			jsonObject = (JSONObject) jsonObject.get("d");
@@ -225,7 +224,7 @@ public class EmpJob {
 				JSONObject metaData = (JSONObject) jsonObject.get("__metadata");
 				session.setAttribute("metaDataUpdatePosVac", metaData.get("uri").toString());
 				logger.error("metaDataUpdatePosVac Set at session:" + metaData.get("uri").toString());
-				//	logger.error(jsonObject.toJSONString());
+				// logger.error(jsonObject.toJSONString());
 
 				if (jsonObject.get("jobCode") != null) {
 					jobCode = jsonObject.get("jobCode").toString();
@@ -257,11 +256,10 @@ public class EmpJob {
 					payGrade = "";
 				}
 				/* Commenting the Location field */
-				/*if (jsonObject.get("location") != null) {
-					location = jsonObject.get("location").toString();
-				} else {
-					location = "";
-				}*/
+				/*
+				 * if (jsonObject.get("location") != null) { location =
+				 * jsonObject.get("location").toString(); } else { location = ""; }
+				 */
 
 				if (jsonObject.get("department") != null) {
 					deparment = jsonObject.get("department").toString();
@@ -288,17 +286,16 @@ public class EmpJob {
 					parentCode = "";
 				}
 				/* Change */
-				if(jsonObject.get("companyNav") != null){
-                    JSONObject countryObject = (JSONObject) JSONValue
-                            .parse(jsonObject.get("companyNav").toString());
-                    country = countryObject.get("country").toString();
-                }else{
-                	country = "";
-                }				
-				if (jsonObject.get("cust_PersonnelArea") != null) {
-				    cust_PersonnelArea = jsonObject.get("cust_PersonnelArea").toString();
+				if (jsonObject.get("companyNav") != null) {
+					JSONObject countryObject = (JSONObject) JSONValue.parse(jsonObject.get("companyNav").toString());
+					country = countryObject.get("country").toString();
 				} else {
-				    cust_PersonnelArea = "";
+					country = "";
+				}
+				if (jsonObject.get("cust_PersonnelArea") != null) {
+					cust_PersonnelArea = jsonObject.get("cust_PersonnelArea").toString();
+				} else {
+					cust_PersonnelArea = "";
 				}
 				if (jsonObject.get("cust_PersonnelSubarea") != null) {
 					cust_PersonnelSubarea = jsonObject.get("cust_PersonnelSubarea").toString();
@@ -395,13 +392,12 @@ public class EmpJob {
 //						logger.error(paramEmpName.toString());
 //						logger.error(paramEmpValue.toString());
 
-					} 
+					}
 					/* Adding New customString2 */
 					else if (name.toLowerCase().equals(customString2.toLowerCase())) {
 						paramEmpSubGroupName = name;
 						paramEmpSubGroupValue = field.getValue().toString();
-					}					
-					else if (name.toLowerCase().equals("payscalearea")) {
+					} else if (name.toLowerCase().equals("payscalearea")) {
 						payScaleArea = field.getValue().toString();
 					} else if (name.toLowerCase().equals("payscaletype")) {
 						payScaleType = field.getValue().toString();
@@ -413,7 +409,7 @@ public class EmpJob {
 						location = field.getValue().toString();
 					} else if (name.toLowerCase().equalsIgnoreCase("payscalegroup")) {
 						payScaleGroup = field.getValue().toString();
-					}else if (name.toLowerCase().equalsIgnoreCase("employeetype")) {
+					} else if (name.toLowerCase().equalsIgnoreCase("employeetype")) {
 						employeeType = field.getValue().toString();
 					} else if (name.toLowerCase().equalsIgnoreCase("regulartemp")) {
 						regularTemp = field.getValue().toString();
@@ -448,11 +444,11 @@ public class EmpJob {
 //		SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
 		SFConstants employeeClassConstant = null;
 		if (country != null) {
-            employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + country); 
-            if(employeeClassConstant != null){
-            	obj.put("employeeClass", employeeClassConstant.getValue());
-            }            
-        }		
+			employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + country);
+			if (employeeClassConstant != null) {
+				obj.put("employeeClass", employeeClassConstant.getValue());
+			}
+		}
 		obj.put("payGrade", payGrade);
 		obj.put(paramPositionName, paramPositionValue);
 		obj.put("location", location);
@@ -466,20 +462,20 @@ public class EmpJob {
 		obj.put("managerId", managerId);
 //		obj.put(paramContractEDateName, paramContractEDateValue);
 		obj.put(paramcontractTypeName, paramcontractTypeValue);
-		obj.put(paramFirmSubCategoryName, paramFirmSubCategoryValue);
+		// obj.put(paramFirmSubCategoryName, paramFirmSubCategoryValue);
 		obj.put(ConstantManager.customDateName, customDateValue);
 
-		obj.put("payScaleArea", payScaleArea);
-		obj.put("payScaleType", payScaleType);
+		// obj.put("payScaleArea", payScaleArea);
+		// obj.put("payScaleType", payScaleType);
 //		obj.put("jobTitle", jobTitle);
-		
-		obj.put(paramEmpSubGroupName, paramEmpSubGroupValue);
-		obj.put("payScaleGroup", payScaleGroup);
-		obj.put("employeeType", employeeType);
-		obj.put("regularTemp", regularTemp);		
+
+		// obj.put(paramEmpSubGroupName, paramEmpSubGroupValue);
+		// obj.put("payScaleGroup", payScaleGroup);
+		// obj.put("employeeType", employeeType);
+		obj.put("regularTemp", regularTemp);
 		obj.put("customString3", cust_PersonnelArea);
 		obj.put("customString4", cust_PersonnelSubarea);
-		
+
 		logger.error("EmpbjobPost:" + obj.toJSONString());
 		return obj.toJSONString();
 	}
