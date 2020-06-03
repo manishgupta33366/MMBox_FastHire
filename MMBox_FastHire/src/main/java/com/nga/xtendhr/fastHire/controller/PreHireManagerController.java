@@ -1638,7 +1638,7 @@ public class PreHireManagerController {
 					entityMap.put("PerPersonal", "?$filter=personIdExternal eq '" + map.get("userId")
 							+ "'&$format=json&$select=startDate,personIdExternal,birthName,initials,maritalStatus,salutation,nativePreferredLang,since,gender,lastName,firstName,preferredName,secondNationality,formalName,nationality,title,preferredName,middleName");
 					entityMap.put("EmpJob", "?$filter=userId eq '" + map.get("userId")
-							+ "'&$format=json&$expand=positionNav/companyNav,positionNav&$select=positionNav/externalName_localized,positionNav/companyNav/country,startDate,userId,jobCode,employmentType,workscheduleCode,division,standardHours,costCenter,payGrade,department,timeTypeProfileCode,businessUnit,managerId,position,employeeClass,countryOfCompany,location,holidayCalendarCode,company,eventReason,contractEndDate,contractType,payScaleArea,payScaleType,jobCode,customString1,customString2,customString3,customString4,payScaleGroup,employeeType,regularTemp");
+							+ "'&$format=json&$expand=positionNav/companyNav,positionNav&$select=positionNav/externalName_localized,positionNav/companyNav/country,startDate,userId,jobCode,employmentType,workscheduleCode,division,standardHours,costCenter,payGrade,department,timeTypeProfileCode,businessUnit,managerId,position,employeeClass,countryOfCompany,location,holidayCalendarCode,company,eventReason,contractEndDate,contractType,payScaleArea,payScaleType,jobCode,customString1,customString2,customString3,customString4,payScaleGroup,regularTemp");
 
 					entityMap.put("PerPerson", "?$filter=personIdExternal  eq '" + map.get("userId")
 							+ "'&$format=json&$select=personIdExternal,dateOfBirth,placeOfBirth,perPersonUuid,countryOfBirth");
