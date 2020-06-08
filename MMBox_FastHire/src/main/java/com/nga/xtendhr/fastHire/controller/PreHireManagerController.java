@@ -1210,6 +1210,26 @@ public class PreHireManagerController {
 		}
 	}
 
+	@GetMapping(value = "/updateSFEntitySuccess")
+	public ResponseEntity<?> updateSFEntitySuccess(HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession(false);
+			String userID = (String) session.getAttribute("userID");
+			// Get URI details
+			DestinationClient destClient = new DestinationClient();
+			destClient.setDestName(destinationName);
+			destClient.setHeaderProvider();
+			destClient.setConfiguration();
+			destClient.setDestConfiguration();
+			destClient.setHeaders(destClient.getDestProperty("Authentication"));
+			String mdfPostStatus = postPersonStatusMDF(destClient, userID, "sf", "SUCCESS", null);
+			return ResponseEntity.ok().body(mdfPostStatus);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error!", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	private String getPicklistUrlFilter(FieldDataFromSystem fieldDataFromSystem,
 			MapTemplateFieldProperties mapTemplateFieldProperties, Map<String, String> compareMap,
 			HashMap<String, String> responseMap, DestinationClient destClient)

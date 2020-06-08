@@ -33,7 +33,6 @@ import com.nga.xtendhr.fastHire.POJO.Detail;
 import com.nga.xtendhr.fastHire.POJO.Field;
 import com.nga.xtendhr.fastHire.SF.DestinationClient;
 import com.nga.xtendhr.fastHire.connections.HttpConnectionPOST;
-import com.nga.xtendhr.fastHire.model.SFConstants;
 import com.nga.xtendhr.fastHire.service.SFConstantsService;
 import com.nga.xtendhr.fastHire.utilities.CommonFunctions;
 import com.nga.xtendhr.fastHire.utilities.ConstantManager;
@@ -442,13 +441,13 @@ public class EmpJob {
 		obj.put("costCenter", costCenter);
 		/* Change */
 //		SFConstants employeeClassConstant = sfConstantsService.findById("employeeClassId");
-		SFConstants employeeClassConstant = null;
-		if (country != null) {
-			employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + country);
-			if (employeeClassConstant != null) {
-				obj.put("employeeClass", employeeClassConstant.getValue());
-			}
-		}
+//		SFConstants employeeClassConstant = null;
+//		if (country != null) {
+//			employeeClassConstant = sfConstantsService.findById("employeeClassIdHire_" + country);
+//			if (employeeClassConstant != null) {
+//				obj.put("employeeClass", employeeClassConstant.getValue());
+//			}
+//		}
 		obj.put("payGrade", payGrade);
 		obj.put(paramPositionName, paramPositionValue);
 		obj.put("location", location);
